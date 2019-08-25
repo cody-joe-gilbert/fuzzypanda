@@ -12,7 +12,7 @@ FuzzyPanda will match strings that
 
 The criteria in steps 2-4 can be modified via modification of the `fuzzypanda.preprocess.PreProcessor` class. 
 
-The primary API is the `fuzzypanda.get_fuzzy_columns` function that takes two Pandas DataFrames and a set of column names, and creates a new column in the "left" DataFrame that contains the closest entries by string edit distance to the associated values in the "right" DataFrame columns. The Pandas `merge` or `join` functions can later be used to perform full joins on the DataFrames.
+The primary API is the `fuzzypanda.matching.get_fuzzy_columns` function that takes two Pandas DataFrames and a set of column names, and creates a new column in the "left" DataFrame that contains the closest entries by string edit distance to the associated values in the "right" DataFrame columns. The Pandas `merge` or `join` functions can later be used to perform full joins on the DataFrames.
 
 ### Installation
 
@@ -24,13 +24,13 @@ pip install fuzzypanda
 
 ### Usage
 
-This version of FuzzyPanda currently supports the `fuzzypanda.get_fuzzy_columns` function. More functions are expected in future releases.
+This version of FuzzyPanda currently supports the `fuzzypanda.matching.get_fuzzy_columns` function. More functions are expected in future releases.
 
 #### Create Fuzzy Matched Columns
 
 Main fuzzy joining API for the fuzzy joining of the given `left_dataframe` and `right_dataframe`. Given a string or list of strings to the cols argument, this function will add fuzzy columns to the `left_dataframe` that best match the columns of the `right_dataframe`. This operation can then be followed up with a Pandas `merge` or `join` to perform the actual joining operation.
 
-* `fuzzypanda.get_fuzzy_columns` Arguments:
+* `fuzzypanda.matching.get_fuzzy_columns` Arguments:
 	* `left_dataframe` (pandas.DataFrame): left Pandas dataframe to which columns will be added
 	* `right_dataframe` (pandas.DataFrame): right Pandas dataframe from which fuzzy values in the `left_dataframe` will be compared and suggested
 	* `left_cols` (List(str)): A list of strings of column names present in `left_dataframe` that will be compared to the corresponding columns in `right_dataframe`.
@@ -60,10 +60,10 @@ print(right_df)
 > 3  23432420  the worst of times    Symphony in C#
 ```
 
-We can now call `fuzzypanda.get_fuzzy_columns`. Notice that the results are columns added to `left_df` in-place, rather than returning a new DataFrame.
+We can now call `fuzzypanda.matching.get_fuzzy_columns`. Notice that the results are columns added to `left_df` in-place, rather than returning a new DataFrame.
 
 ```python
-fuzzypanda.get_fuzzy_columns(left_dataframe=left_df,
+fuzzypanda.matching.get_fuzzy_columns(left_dataframe=left_df,
                       		right_dataframe=right_df,
                       		left_cols=['col_1', 'col_2'])
 
@@ -93,7 +93,7 @@ The algorithm operates as follows:
 
 1. A "left" Pandas DataFrame and a "right" Pandas DataFrame are input to `get_fuzzy_columns` with the column names used for comparison.
 2. Each right DataFrame is copied into a temporary corpus text file.
-3. Each entry in the corpus text file is preprocessed using either the default `fuzzypanda.preprocess.PreProcessor` or a user-supplied object containing a `preprocessor` method and copied to another preprocessed text file. An in-memory index is created to translate processed strings to preprocessed strings.
+3. Each entry in the corpus text file is preprocessed using either the default `fuzzypanda.preprocess.PreProcessor` or a user-supplied object containing a `preprocess` method and copied to another preprocessed text file. An in-memory index is created to translate processed strings to preprocessed strings.
 4. A symspellpy object is instantiated and the corpus file is used to create a lookup dictionary.
 5. Each record from the left DataFrame is preprocessed and queried from the dictionary using the `symspellpy.lookup` function to find the closest string in terms of edit distance, and the suggested string (or a substitute string if one isn't found) is placed in an intemediate list.
 6. When all records of the left DataFrame have been processed, a new column containing the results of the fuzzy lookup is added to the left DataFrame in a column labeled 'fuzzy_' + queried column name.

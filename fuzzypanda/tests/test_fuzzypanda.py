@@ -6,7 +6,8 @@ Tests the fuzzypanda modules
 import sys
 import unittest
 import pandas as pd
-import fuzzypanda.fuzzypanda as fpd
+import fuzzypanda
+import fuzzypanda.matching as fpd
 import fuzzypanda.preprocess
 
 
