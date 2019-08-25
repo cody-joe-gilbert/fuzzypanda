@@ -1,15 +1,16 @@
-#FuzzyPanda
+
+# FuzzyPanda
 
 FuzzyPanda was created to support fuzzy join operations with [Pandas]( https://pandas.pydata.org/ ) [DataFrames]( https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html ) using Python Ver. 3. These fuzzy joins are a form of [approximate string matching]( https://en.wikipedia.org/wiki/Approximate_string_matching ) to join relational data that contain "errors" or minor modifications that preclude direct string comparison. 
 
-FuzzyPanda will match strings that [^1]
+FuzzyPanda will match strings that
 
 1. Are within a user-specified [edit distance]( https://en.wikipedia.org/wiki/Edit_distance ) (e.g. "test" == "taste" with edit distance 2)
 2. Are independent of case (e.g. "Test" == "test")
 3. Are Whitespace-delimited strings are matched regardless of token order (e.g. "dark and stormy night" == "stormy and dark night")
 4. Are independent of special symbols (e.g. "this-string" == "this string")
 
-[^1]: The criteria in steps 2-4 can be modified via modification of the `fuzzypanda.preprocess.PreProcessor` class. 
+The criteria in steps 2-4 can be modified via modification of the `fuzzypanda.preprocess.PreProcessor` class. 
 
 The primary API is the `fuzzypanda.get_fuzzy_columns` function that takes two Pandas DataFrames and a set of column names, and creates a new column in the "left" DataFrame that contains the closest entries by string edit distance to the associated values in the "right" DataFrame columns. The Pandas `merge` or `join` functions can later be used to perform full joins on the DataFrames.
 
@@ -25,18 +26,18 @@ pip install fuzzypanda
 
 This version of FuzzyPanda currently supports the `fuzzypanda.get_fuzzy_columns` function. More functions are expected in future releases.
 
-####  get\_fuzzy\_columns
+#### Create Fuzzy Matched Columns
 
 Main fuzzy joining API for the fuzzy joining of the given `left_dataframe` and `right_dataframe`. Given a string or list of strings to the cols argument, this function will add fuzzy columns to the `left_dataframe` that best match the columns of the `right_dataframe`. This operation can then be followed up with a Pandas `merge` or `join` to perform the actual joining operation.
 
 ```python
 fuzzypanda.get_fuzzy_columns(left_dataframe,
-                      		   right_dataframe,
-                      			left_cols,
-                      			right_cols=None,
-                      			null_return=None,
-                      			preprocesser=None,
-                      			max_edit_distance=2): 
+									right_dataframe,
+									left_cols,
+									right_cols=None,
+									null_return=None,
+									preprocesser=None,
+									max_edit_distance=2): 
 ```
 
 * Arguments:
