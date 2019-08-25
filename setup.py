@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='fuzzypanda',
-      version='0.1.0',
+      version='0.1.1',
       description='Toolkit for performing fuzzy joins with Symspell framework',
       long_description=readme(),
       long_description_content_type='text/markdown',
