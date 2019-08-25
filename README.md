@@ -30,17 +30,7 @@ This version of FuzzyPanda currently supports the `fuzzypanda.get_fuzzy_columns`
 
 Main fuzzy joining API for the fuzzy joining of the given `left_dataframe` and `right_dataframe`. Given a string or list of strings to the cols argument, this function will add fuzzy columns to the `left_dataframe` that best match the columns of the `right_dataframe`. This operation can then be followed up with a Pandas `merge` or `join` to perform the actual joining operation.
 
-```python
-fuzzypanda.get_fuzzy_columns(left_dataframe,
-									right_dataframe,
-									left_cols,
-									right_cols=None,
-									null_return=None,
-									preprocesser=None,
-									max_edit_distance=2): 
-```
-
-* Arguments:
+* `fuzzypanda.get_fuzzy_columns` Arguments:
 	* `left_dataframe` (pandas.DataFrame): left Pandas dataframe to which columns will be added
 	* `right_dataframe` (pandas.DataFrame): right Pandas dataframe from which fuzzy values in the `left_dataframe` will be compared and suggested
 	* `left_cols` (List(str)): A list of strings of column names present in `left_dataframe` that will be compared to the corresponding columns in `right_dataframe`.
@@ -74,8 +64,8 @@ We can now call `fuzzypanda.get_fuzzy_columns`. Notice that the results are colu
 
 ```python
 fuzzypanda.get_fuzzy_columns(left_dataframe=left_df,
-                      		   right_dataframe=right_df,
-                      		   left_cols=['col_1', 'col_2'])
+                      		right_dataframe=right_df,
+                      		left_cols=['col_1', 'col_2'])
 
 print(left_df)
 >        ID              col_1            col_2         fuzzy_col_1 \
